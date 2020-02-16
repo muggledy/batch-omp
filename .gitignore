@@ -1,0 +1,2 @@
+/third-party/eigen/*
+!/third-party/eigen/.gitkeep
