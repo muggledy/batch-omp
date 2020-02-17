@@ -13,12 +13,6 @@ using namespace Eigen;
  * 
  */
 
-double vector_std(VectorXd x){
-	/* 这是首次学习Eigen的一个简单示例，计算向量x的方差 */
-	double m=x.mean();
-	return (x.array()-m).matrix().squaredNorm()/x.size(); //Eigen不仅提供了Matrix和Vector结构，还提供了Array结构。区别如下，Matrix和Vector就是线性代数中定义的矩阵和向量，所有的数学运算都和数学上一致。但是存在一个问题是数学上的定义并不一定能完全满足现实需求。比如，数学上并没有定义一个矩阵和一个标量的加法运算。但是如果我们想给一个矩阵的每个元素都加上同一个数，那么这个操作就需要我们自己去实现，这显然并不方便，当然，Array和Matrix之间可以方便地进行转换：Array有.matrix()方法，Matrix有.array()方法。https://www.cnblogs.com/wangxiaoyong/p/8904108.html
-}
-
 VectorXd batch_omp(VectorXd alpha0,double e0,MatrixXd G,double err=1e-6,int k=0){
 	/* 所有变量同./omp.py下函数omp_3 */
 	int w,n=0;
@@ -92,16 +86,9 @@ void batch_omp_wrapper(double *_alpha0,double *_G,double *_result,int aL,int Gn,
 
 int main(){
 	//使用g++编译项目，此处即g++ main.cpp，如果有多个cpp文件的话，需要作为参数全部给出，譬如g++ main.cpp other.cpp，但是多个cpp只应有一个int main()主函数。参考：https://www.cnblogs.com/fenghuan/p/4794514.html
-	//MatrixXd D=MatrixXd::Random(2,3);
-	//D<<-0.707,0.8,0,0.707,0.6,-1;
-	//cout<<D<<endl;
-	//VectorXd x(2);
-	//x<<1.65,-0.25;
-	//cout<<x<<endl;
-	//cout<<vector_std(x)<<endl;
 	cout<<"### Batch-OMP ###"<<endl; //C++标准库定义的名字都在命名空间std中，要省略std，则在开头using namespace std，否则std::cout或std::endl
 	
-	double alpha0[]={-1.3433,1.17,0.25}; //alpha0:=Dᵀx
+	double alpha0[]={-1.3433,1.17,0.25}; //alpha0:=Dᵀx，D、x数值见./omp.py
 	int aL=3;
 	double G[]={0.999698,-0.1414,-0.707,-0.1414,1,-0.6,-0.707,-0.6,1}; //G:=DᵀD
 	int Gn=3;
@@ -110,9 +97,7 @@ int main(){
 	double result[3]; //存放结果
 	
 	batch_omp_wrapper(alpha0,G,result,aL,Gn,Gm,e0);
-	
-	cout<<"---OMP---"<<endl;
-	for(int i=0;i<Gm;i++)cout<<result[i]<<",";
+	for(int i=0;i<Gm;i++)cout<<result[i]<<" ";
 	cout<<endl;
 	return 1;
 }
