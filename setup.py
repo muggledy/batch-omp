@@ -10,4 +10,4 @@ setup(
     name=filename.split('.')[0],
     cmdclass={'build_ext':build_ext},
     ext_modules=[Extension(filename.split('.')[0],sources=[filename,"main.cpp"],language='c++',include_dirs=[numpy.get_include()])],
-) #编译一直出错，还好我突发奇想添加了language='c++'，不然又不知道阻塞多久
+)

@@ -37,9 +37,9 @@ VectorXd batch_omp(VectorXd alpha0,double e0,MatrixXd G,double err=1e-6,int k=0)
 	double delta=0;
 	for(int n=0;n<k;++n){
 		//获取对残差的最大贡献基索引
-		int k_;
+		int k_=I_[0]; //fix
 		double max_val=0;
-		int ptr;
+		int ptr=0; //fix
 		for(int i=0;i<I_.size();++i){
 			double v=abs(alpha[I_[i]]);
 			if(v>max_val){max_val=v;k_=I_[i];ptr=i;}
@@ -77,7 +77,7 @@ VectorXd batch_omp(VectorXd alpha0,double e0,MatrixXd G,double err=1e-6,int k=0)
 }
 
 void batch_omp_wrapper(double *_alpha0,double *_G,double *_result,int aL,int Gn,int Gm,double e0,double err=1e-6,int k=0){
-	//该函数的编写启发自pyksvd源码：https://github.com/hoytak/pyksvd，作用显而易见，完成C普通数组与Eigen中矩阵、向量对象的转换，即完成与函数batch_omp的对接
+	//该函数的编写启发自pyksvd源码（可惜我一直编译不了，我目前对C++了解连皮毛都不算）：https://github.com/hoytak/pyksvd，作用显而易见，完成C普通数组与Eigen中矩阵、向量对象的转换，即完成与函数batch_omp的对接
 	Map<Matrix<double,Dynamic,1>>alpha0(_alpha0,aL,1);
 	Map<Matrix<double,Dynamic,Dynamic,RowMajor>>G(_G,Gn,Gm);
 	Map<Matrix<double,Dynamic,1>>result(_result,Gm,1);
