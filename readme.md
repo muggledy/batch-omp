@@ -1,4 +1,4 @@
-The implementation of Batch OMP. I have written omp algorithm with Numpy, including Origin OMP、Cholesky OMP and Batch OMP in */code/omp.py*, but it's a bit slow. You can see the excellent performance of Cython version in */demo.py*, however, it is still very slow compared to ompbox10 (matlab).
+The implementation of Batch OMP. I have written omp algorithm with Numpy, including Origin OMP、Cholesky OMP and Batch OMP in */code/omp.py*, but it's a bit slow. You can see the excellent performance of Cython version in */demo.py*, however, it is still very slow compared to ompbox10 (matlab). You can clone this repository with `git clone --depth 1 git@github.com:muggledy/batch-omp.git`.
 
 # Run
 
