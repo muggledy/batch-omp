@@ -1,3 +1,7 @@
-/third-party/eigen/*
-!/third-party/eigen/.gitkeep
-a.exe
+/code/*
+!/code/omp.py
+!/code/main.cpp
+!/code/main.h
+!/code/batch_omp.pyx
+!/code/__init__.py
+!/code/setup.py
