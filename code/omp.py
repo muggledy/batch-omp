@@ -131,6 +131,41 @@ def omp_3(alpha0,e0,G,err=1e-6,k=None):
         n+=1
     return y
 
+'''
+对于函数omp_3，在多数时候，都应避免使用数组拼接操作（np.concatenate()或np.stack()），否则可能会带来极差的体验，修改如下：
+def omp_3(alpha0,e0,G,err=1e-6,k=None):
+    w=G.shape[0]
+    I=[]
+    y=np.zeros((w,1))
+    alpha=alpha0
+    e=e0
+    delta=0
+    n=0
+    k=k if k!=None and k<w else w
+    L=np.zeros((w,w)) #
+    L[0,0]=1
+    while n<k:
+        I_=sorted(set(range(w))-set(I))
+        k_=I_[np.argmax(np.abs(alpha[I_]))]
+        if n>0:
+            w_=np.linalg.solve(L[:n,:n],G[I][:,[k_]])
+            L[n,:n]=w_.reshape(-1)
+            L[n,n]=np.sqrt(1-w_.reshape(-1).dot(w_))
+        I.append(k_)
+        Lp=np.linalg.solve(L[:n+1,:n+1].dot(L[:n+1,:n+1].T),alpha0[I])
+        beta=G[:,I].dot(Lp)
+        alpha=alpha0-beta
+        t=Lp.reshape(-1).dot(beta[I])
+        e=e-t+delta
+        if e<err:
+            break
+        delta=t
+        y[I]=Lp
+        n+=1
+    return y
+沿用之前的测试示例，在G4560处理器上，100000次取5次平均用时22秒，未修改前为25秒。尽管这不足为道，因为使用C++版本仅用时1.5秒
+'''
+
 if __name__=='__main__':
     A=np.array([[-0.707,0.8,0],[0.707,0.6,-1]])
     y=np.array([1.65,-0.25])
